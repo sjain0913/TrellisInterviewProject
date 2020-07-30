@@ -21,9 +21,7 @@ router.get('/notes', async (req, res) => {
       if (allNotes.length == 0) {
          res.json("No notes have been added for this sensor. Please post some notes!")
       } else {
-         for (let i = 0; i < allNotes.length; i++) {
-            res.json(allNotes[i]);
-         }
+         res.json(allNotes);
       }
    } catch (e) {
       console.log(e);
@@ -49,11 +47,9 @@ router.get('/notes/:number(\\d+)/', async (req, res) => {
 
 // post a note
 router.post('/notes', async (req, res) => {
-   console.log(req.body)
-   console.log(req.body)
    const postNumber = data['sensors'][3]['notes'].length + 1
    const note = new Note({
-      number: postNumber,
+      number: postNumber.toString(),
       text: req.body.text
    });
    try {

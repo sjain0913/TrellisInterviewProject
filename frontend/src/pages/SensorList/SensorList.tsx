@@ -30,10 +30,11 @@ const SensorList: React.FC = () => {
 
   return (
     <ListContainer>
-      {request.sensors.map(({ id, name, description }) => (
+      {request.sensors.map(({ id, name, description, notes }) => (
         <SensorCard key={id}>
           <Name>{name}</Name>
           <div>{description}</div>
+          <div>{notes}</div>
         </SensorCard>
       ))}
     </ListContainer>

@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+# In real environment, .env should be in gitignore
 
 # testing
 /coverage

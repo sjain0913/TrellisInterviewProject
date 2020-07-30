@@ -1,34 +1,49 @@
 const express = require("express");
+const bodyParser = require("body-parser");
+
+const northRoute = require('../routes/north.js');
+const southRoute = require('../routes/south.js');
+const eastRoute = require('../routes/east.js');
+const westRoute = require('../routes/west.js');
+const data = require('./data.js');
 
 // In-memory 'database' object
-// Feel free to store the information in a different format
-const db = {
-  sensors: [
-    {
-      id: 1,
-      name: "North Sensor",
-      description: "The sensor in the north"
-    },
-    {
-      id: 2,
-      name: "South Sensor",
-      description: "The south field sensor"
-    },
-    {
-      id: 3,
-      name: "East Sensor",
-      description: "The sensor on the east side"
-    },
-    {
-      id: 4,
-      name: "West Sensor",
-      description: "The western most sensor"
-    }
-  ]
-};
+// const db = {
+//   sensors: [
+//     {
+//       id: 1,
+//       name: "North Sensor",
+//       description: "The sensor in the north"
+//     },
+//     {
+//       id: 2,
+//       name: "South Sensor",
+//       description: "The south field sensor"
+//     },
+//     {
+//       id: 3,
+//       name: "East Sensor",
+//       description: "The sensor on the east side"
+//     },
+//     {
+//       id: 4,
+//       name: "West Sensor",
+//       description: "The western most sensor"
+//     }
+//   ]
+// };
 
 // Create express app
 const app = express();
+app.use(bodyParser.json());
+
+// Enable use of individual routes for each sensor
+app.use('/sensors/north', northRoute);
+app.use('/sensors/south', southRoute);
+app.use('/sensors/east', eastRoute);
+app.use('/sensors/west', westRoute);
+
+
 
 app.use(function(req, res, next) {
   // Allow CORS
@@ -40,15 +55,18 @@ app.use(function(req, res, next) {
   next();
 });
 
+// Route for home
 app.get("/", (req, res) => {
-  res.json("This is the home page")
+  res.json("This is the home page of the express server")
 })
 
+// Route for list of all sensors
 app.get("/sensors", (req, res) => {
   // Return all sensors
-  res.json(db.sensors);
+  res.json(data);
 });
 
+// Establish server on port from .env file
 const PORT = 9000;
 app.listen(PORT);
 console.log("Express listening on port " + PORT);

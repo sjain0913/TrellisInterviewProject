@@ -40,6 +40,10 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.get("/", (req, res) => {
+  res.json("This is the home page")
+})
+
 app.get("/sensors", (req, res) => {
   // Return all sensors
   res.json(db.sensors);

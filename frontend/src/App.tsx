@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-
 import SensorList from "./pages/SensorList/SensorList";
 
 const App: React.FC = () => {

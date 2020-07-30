@@ -7,32 +7,6 @@ const eastRoute = require('../routes/east.js');
 const westRoute = require('../routes/west.js');
 const data = require('./data.js');
 
-// In-memory 'database' object
-// const db = {
-//   sensors: [
-//     {
-//       id: 1,
-//       name: "North Sensor",
-//       description: "The sensor in the north"
-//     },
-//     {
-//       id: 2,
-//       name: "South Sensor",
-//       description: "The south field sensor"
-//     },
-//     {
-//       id: 3,
-//       name: "East Sensor",
-//       description: "The sensor on the east side"
-//     },
-//     {
-//       id: 4,
-//       name: "West Sensor",
-//       description: "The western most sensor"
-//     }
-//   ]
-// };
-
 // Create express app
 const app = express();
 app.use(bodyParser.json());
@@ -42,8 +16,6 @@ app.use('/sensors/north', northRoute);
 app.use('/sensors/south', southRoute);
 app.use('/sensors/east', eastRoute);
 app.use('/sensors/west', westRoute);
-
-
 
 app.use(function(req, res, next) {
   // Allow CORS

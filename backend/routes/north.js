@@ -6,7 +6,7 @@ const data = require('../src/data.js');
 // get all information available in data for this sensor
 router.get('/', async (req, res) => {
      try {
-        const allInfo = data['sensors'][0];
+        const allInfo = data[0];
         res.json(allInfo);
      } catch (e) {
          console.log(e);
@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
  // get all notes associated with sensor
 router.get('/notes', async (req, res) => {
    try {
-      const allNotes = data['sensors'][0]['notes'];
+      const allNotes = data[0]['notes'];
       if (allNotes.length == 0) {
          res.json("No notes have been added for this sensor. Please post some notes!")
       } else {
@@ -33,7 +33,7 @@ router.get('/notes', async (req, res) => {
 router.get('/notes/:number(\\d+)/', async (req, res) => {
    try {
       const int_number = parseInt(req.params.number)
-      const numberNote = data['sensors'][0]['notes'][int_number - 1];
+      const numberNote = data[0]['notes'][int_number - 1];
       if (numberNote == null) {
          res.json(`Your specified Note with ID ${req.params.number} was not found!`);
       } else {
@@ -47,13 +47,13 @@ router.get('/notes/:number(\\d+)/', async (req, res) => {
 
 // post a note
 router.post('/notes', async (req, res) => {
-   const postNumber = data['sensors'][0]['notes'].length + 1
+   const postNumber = data[0]['notes'].length + 1
    const note = new Note({
       number: postNumber.toString(),
       text: req.body.text
    });
    try {
-      data['sensors'][0]['notes'].push(note);
+      data[0]['notes'].push(note);
       res.json(note);
       console.log("post worked")
    } catch (e) {
@@ -66,8 +66,8 @@ router.post('/notes', async (req, res) => {
 router.delete('/notes/:postNumber(\\d+)/', async(req, res) => {
    try {
       const postNumber = parseInt(req.params.postNumber);
-      const toDelete = data['sensors'][0]['notes'][postNumber - 1];
-      data['sensors'][0]['notes'].splice(postNumber - 1, 1);
+      const toDelete = data[0]['notes'][postNumber - 1];
+      data[0]['notes'].splice(postNumber - 1, 1);
       res.json(toDelete);
    } catch (e) {
       console.log(e);
@@ -79,8 +79,8 @@ router.delete('/notes/:postNumber(\\d+)/', async(req, res) => {
 router.patch('/notes/:postNumber(\\d+)/', async (req, res) => {
    try {
       const postNumber = parseInt(req.params.postNumber);
-      data['sensors'][0]['notes'][postNumber - 1]['text'] = req.body.text;
-      const updatedPost = data['sensors'][0]['notes'][postNumber - 1];
+      data[0]['notes'][postNumber - 1]['text'] = req.body.text;
+      const updatedPost = data[0]['notes'][postNumber - 1];
       res.json(updatedPost);
    } catch (e) {
       console.log(e);

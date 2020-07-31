@@ -1,3 +1,5 @@
+const Note = require("../models/Note");
+
 // In-memory 'database' object
 const db = {
     sensors: [
@@ -28,4 +30,5 @@ const db = {
     ]
   };
 
- module.exports = db; 
+// chose to create seperate data storage for notes because this is an existing system. In an existing system, reshaping the entire database structure wouldn't be wise.
+module.exports = db.sensors;

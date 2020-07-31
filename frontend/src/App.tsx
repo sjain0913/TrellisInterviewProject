@@ -8,7 +8,7 @@ const App: React.FC = () => {
       <Header>
         <Title>Sensor Viewer</Title>
       </Header>
-      <SensorList />
+      {<SensorList />}
     </Container>
   );
 };

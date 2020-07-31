@@ -4,7 +4,13 @@ export interface Sensor {
   id: string;
   name: string;
   description: string;
-  notes: Array<Map<string, string>>;
+  notes: Array<Note>
+}
+
+export interface Note {
+  number: string;
+  text: string;
+  _id: string;
 }
 
 export const getSensors = async () => {

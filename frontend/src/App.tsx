@@ -1,14 +1,28 @@
 import React from "react";
 import styled from "styled-components";
-import SensorList from "./pages/SensorList/SensorList";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import SensorList from "./pages/SensorList";
+import EastSensor from "./pages/EastSensor.tsx";
 
 const App: React.FC = () => {
   return (
     <Container>
-      <Header>
-        <Title>Sensor Viewer</Title>
-      </Header>
-      {<SensorList />}
+      <Router>
+        <Switch>
+          <Route exact path="/">
+            <Header><Title>Sensor Viewer</Title></Header>
+            <SensorList />
+          </Route>
+          <Route path="/east">
+            <EastSensor/>
+          </Route>
+        </Switch>
+      </Router>
     </Container>
   );
 };

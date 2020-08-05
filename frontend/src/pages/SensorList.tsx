@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { Helmet } from 'react-helmet'
+import {Link} from 'react-router-dom';
 
-import { getSensors, Sensor } from "../../services/SensorService";
+import { getSensors, Sensor } from "../services/SensorService";
 
 type RequestState =
   | { state: "LOADING" }
@@ -30,12 +32,18 @@ const SensorList: React.FC = () => {
 
   return (
     <ListContainer>
+      <div>
+        <Helmet>
+          <title>Sensor Viewer</title>
+        </Helmet>
+      </div>
       {request.sensors.map(({id, name, description, notes}) => (
         <SensorCard key={id}>
-          
-          <Name>{name}</Name>
+          <Name>
+            {name}
+          </Name>
           <div>{description}</div>
-          <div>Click here for more information!</div>
+          <div><Link to= {`${'/' + name.split(' ')[0].toLowerCase()}`} >More Info?</Link></div>
         </SensorCard>
       ))}
     </ListContainer>
@@ -44,6 +52,10 @@ const SensorList: React.FC = () => {
 
 const ListContainer = styled.div`
   width: 100%;
+`;
+
+const linkControl = styled.div`
+  align: right;
 `;
 
 const SensorCard = styled.div`

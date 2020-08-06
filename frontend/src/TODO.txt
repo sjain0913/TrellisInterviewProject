@@ -1,0 +1,4 @@
+steps:
+have buttons on each note for:
+    - delete note (send delete request, delete note, go back to sample note after and refresh the list of all notes)
+way to add a new note (when pressed, pop up and write all the text and post)

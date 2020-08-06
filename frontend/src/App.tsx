@@ -4,10 +4,9 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
 import SensorList from "./pages/SensorList";
-import EastSensor from "./pages/EastSensor.tsx";
+import EastSensor from "./pages/EastSensor";
 
 const App: React.FC = () => {
   return (

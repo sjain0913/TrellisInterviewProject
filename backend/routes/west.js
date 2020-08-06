@@ -18,11 +18,7 @@ router.get('/', async (req, res) => {
 router.get('/notes', async (req, res) => {
    try {
       const allNotes = data[3]['notes'];
-      if (allNotes.length == 0) {
-         res.json("No notes have been added for this sensor. Please post some notes!")
-      } else {
-         res.json(allNotes);
-      }
+      res.json("No notes have been added for this sensor. Please post some notes!")
    } catch (e) {
       console.log(e);
       console.log(res.status);
@@ -33,7 +29,7 @@ router.get('/notes', async (req, res) => {
 router.get('/notes/:number(\\d+)/', async (req, res) => {
    try {
       const int_number = parseInt(req.params.number)
-      const numberNote = data[3]['notes'][int_number - 1];
+      const numberNote = data[3]['notes'][int_number];
       if (numberNote == null) {
          res.json(`Your specified Note with ID ${req.params.number} was not found!`);
       } else {
@@ -47,7 +43,7 @@ router.get('/notes/:number(\\d+)/', async (req, res) => {
 
 // post a note
 router.post('/notes', async (req, res) => {
-   const postNumber = data[3]['notes'].length + 1
+   const postNumber = data[3]['notes'].length
    const note = new Note({
       number: postNumber.toString(),
       text: req.body.text
@@ -66,8 +62,8 @@ router.post('/notes', async (req, res) => {
 router.delete('/notes/:postNumber(\\d+)/', async(req, res) => {
    try {
       const postNumber = parseInt(req.params.postNumber);
-      const toDelete = data[3]['notes'][postNumber - 1];
-      data[3]['notes'].splice(postNumber - 1, 1);
+      const toDelete = data[3]['notes'][postNumber];
+      data[3]['notes'].splice(postNumber, 1);
       res.json(toDelete);
    } catch (e) {
       console.log(e);
@@ -79,7 +75,7 @@ router.delete('/notes/:postNumber(\\d+)/', async(req, res) => {
 router.patch('/notes/:postNumber(\\d+)/', async (req, res) => {
    try {
       const postNumber = parseInt(req.params.postNumber);
-      data[3]['notes'][postNumber - 1]['text'] = req.body.text;
+      data[3]['notes'][postNumber]['text'] = req.body.text;
       const updatedPost = data[3]['notes'][postNumber - 1];
       res.json(updatedPost);
    } catch (e) {

@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require('cors');
 
 const northRoute = require('../routes/north.js');
 const southRoute = require('../routes/south.js');
@@ -9,6 +10,7 @@ const data = require('./data.js');
 
 // Create express app
 const app = express();
+app.use(cors());
 app.use(bodyParser.json());
 
 // Enable use of individual routes for each sensor

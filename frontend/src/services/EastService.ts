@@ -24,10 +24,12 @@ export const getNotes = async () => {
   return res.json() as Promise<Note[]>;
 };
 
-export const getNoteNumber = async (noteNumber: number) => {
-  const res = await fetch(`${serverURL}/sensors/east/notes/${noteNumber}`);
-  if (res.status !== 200) {
-    throw new Error("Error fetching east notes");
+export const deleteNote = async (ID: number) => {
+  const deleted = await fetch(`${serverURL}/sensors/east/notes/${ID.toString()}`, {
+    method: 'DELETE',
+  });
+  if (deleted.status !== 200) {
+    throw new Error("Error deleted note");
   }
-  return res.json() as Promise<Note>;
+  return deleted.json() as Promise<Note>;
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet'
 import styled from "styled-components";
 import SplitPane from 'react-split-pane';
-import { Note, getInfo, getNotes, getNoteNumber} from '../services/EastService';
+import {getInfo, getNotes, deleteNote} from '../services/EastService';
 import { Sensor } from "../services/SensorService";
 import '../styles/East.css';
 
@@ -16,16 +16,30 @@ type RequestStateNotes =
   | { state: "ERROR"; error: string }
   | { state: "LOADED"; notes: Note[] }; 
   
-type RequestStateNoteNumber =
+type RequestStateNoteDisplayed =
+  | { noteNumber: 0 }
+
+type RequestStateNote =   
   | { state: "LOADING" }
   | { state: "ERROR"; error: string }
-  | { state: "LOADED"; note: Note};  
+  | { state: "LOADED"; note: Note };
+
+interface Note {
+  number: string;
+  text: string;
+  _id: string;
+}  
 
 const EastSensor: React.FC = () => {
     const [requestInfo, setRequestInfo] = useState<RequestStateInfo>({ state: "LOADING" });
     const [requestNotes, setRequestNotes] = useState<RequestStateNotes>({ state: "LOADING" });
-    const [requestNoteNumber, setRequestNoteNumber] = useState<RequestStateNoteNumber>({ state: "LOADING" });
-    var noteNumber = 1;
+    const [currentNoteDisplayedID, setNoteDisplayedID] = useState(0)
+    const [currentNoteDisplayedText, setNoteDisplayedText] = useState("This is a sample note. Pick a note to display!")
+
+    function changeNote(text: string, ID: number) {
+      setNoteDisplayedText(text)
+      setNoteDisplayedID(ID)
+    }
 
     useEffect(() => {
         getInfo()
@@ -45,15 +59,6 @@ const EastSensor: React.FC = () => {
         });
     }, []);
 
-    useEffect(() => {
-        getNoteNumber(noteNumber)
-        .then(note => setRequestNoteNumber({ note, state: "LOADED" }))
-        .catch(err => {
-        console.error(err);
-        setRequestNotes({ error: err.message, state: "ERROR" });
-        });
-    }, []);
-
     if (requestInfo.state === "ERROR") {
         return <ErrorText>{requestInfo.error}</ErrorText>;
     }
@@ -66,13 +71,6 @@ const EastSensor: React.FC = () => {
     if (requestNotes.state === "LOADING") {
         return <LoadingText>Loading...</LoadingText>;
     }
-    if (requestNoteNumber.state === "ERROR") {
-        return <ErrorText>{requestNoteNumber.error}</ErrorText>;
-    }
-    if (requestNoteNumber.state === "LOADING") {
-        return <LoadingText>Loading...</LoadingText>;
-    }
-    
 
     return (
         <div>
@@ -88,18 +86,18 @@ const EastSensor: React.FC = () => {
             <div className = "panes">
                 <SplitPane split="vertical" allowResize={false} defaultSize="20%">
                     <div className = "noteList">
-                        {requestNotes.notes.map(({number, text, _id}) => (
+                        {requestNotes.notes.map(({number, text}) => (
                             <SensorCard key={number}>
-                                <Name>
+                              <Name>
                                     {`Note #${number}`}
                                 </Name>
-                                <div><button>View</button> <button>Delete</button></div>
+                              <div><button onClick={() => changeNote(text, parseInt(number,10))}>View</button> <button>Delete</button></div>
                             </SensorCard>
                         ))}
                     </div>
                     <div className = "noteDisplay">
-                        <Title>Note# {requestNoteNumber.note.number}</Title>
-                        <Description>{requestNoteNumber.note.text}</Description>
+                        <Title>Note #{currentNoteDisplayedID}</Title>
+                        <Description>{currentNoteDisplayedText}</Description>
                     </div>
                 </SplitPane>
             </div>

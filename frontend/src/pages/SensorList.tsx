@@ -54,10 +54,6 @@ const ListContainer = styled.div`
   width: 100%;
 `;
 
-const linkControl = styled.div`
-  align: right;
-`;
-
 const SensorCard = styled.div`
   background: white;
   margin: auto;

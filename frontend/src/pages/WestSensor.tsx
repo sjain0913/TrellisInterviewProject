@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet'
 import styled from "styled-components";
 import SplitPane from 'react-split-pane';
-import {Note, getInfo, getNotes, deleteNote, addNote} from '../services/EastService';
+import {Note, getInfo, getNotes, deleteNote, addNote} from '../services/WestService';
 import { Sensor } from "../services/SensorService";
 import {Link} from 'react-router-dom';
 import '../styles/Sensor.css';
@@ -17,9 +17,8 @@ type RequestStateNotes =
   | { state: "ERROR"; error: string }
   | { state: "LOADED"; notes: Note[] }; 
 
-const EastSensor: React.FC = () => {
-
-  // states to store info for sensor, list of notes and the displayed note's text
+const WestSensor: React.FC = () => {
+    // states to store info for sensor, list of notes and the displayed note's text
     const [requestInfo, setRequestInfo] = useState<RequestStateInfo>({ state: "LOADING" });
     const [requestNotes, setRequestNotes] = useState<RequestStateNotes>({ state: "LOADING" });
     const [currentNoteDisplayedText, setNoteDisplayedText] = useState("Pick a note to display or add some notes!")
@@ -65,11 +64,11 @@ const EastSensor: React.FC = () => {
         <div>
             <div className = "top">
                 <Helmet>
-                    <title>East Sensor</title>
+                    <title>West Sensor</title>
                 </Helmet>
                 <Header>
-                  <Description> <Link to="/">Go Home</Link></Description>
-                    <Title>East Sensor</Title>
+                <Description> <Link to="/">Go Home</Link></Description>
+                    <Title>West Sensor</Title>
                     <Description>{requestInfo.info.description}</Description>
                 </Header>
             </div>
@@ -137,4 +136,4 @@ const LoadingText = styled.div`
   margin: 24px;
 `;
 
-export default EastSensor;
+export default WestSensor;

@@ -7,10 +7,14 @@ import {
 } from "react-router-dom";
 import SensorList from "./pages/SensorList";
 import EastSensor from "./pages/EastSensor";
+import WestSensor from "./pages/WestSensor";
+import NorthSensor from "./pages/NorthSensor";
+import SouthSensor from "./pages/SouthSensor";
 
 const App: React.FC = () => {
   return (
     <Container>
+      {/* Links for all the individual sensor pages */}
       <Router>
         <Switch>
           <Route exact path="/">
@@ -19,6 +23,15 @@ const App: React.FC = () => {
           </Route>
           <Route path="/east">
             <EastSensor/>
+          </Route>
+          <Route path="/west">
+            <WestSensor/>
+          </Route>
+          <Route path="/south">
+            <SouthSensor/>
+          </Route>
+          <Route path="/north">
+            <NorthSensor/>
           </Route>
         </Switch>
       </Router>

@@ -13,6 +13,7 @@ type RequestState =
 const SensorList: React.FC = () => {
   const [request, setRequest] = useState<RequestState>({ state: "LOADING" });
 
+  // get list of all sensors
   useEffect(() => {
     getSensors()
       .then(sensors => setRequest({ sensors, state: "LOADED" }))

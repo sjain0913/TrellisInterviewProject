@@ -6,6 +6,10 @@
     font-size: 2em;
 }
 
+.addNote {
+  align-items: center;
+}
+
 .Resizer {
     background: #000;
     opacity: 0.2;

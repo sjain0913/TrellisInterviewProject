@@ -18,23 +18,24 @@ router.get('/', async (req, res) => {
 router.get('/notes', async (req, res) => {
    try {
       const allNotes = data[3]['notes'];
-      res.json("No notes have been added for this sensor. Please post some notes!")
+      res.json(allNotes);
    } catch (e) {
       console.log(e);
       console.log(res.status);
    }
 });
 
-// get a note by id
-router.get('/notes/:number(\\d+)/', async (req, res) => {
+// get a note by number
+router.get('/notes/:id', async (req, res) => {
    try {
-      const int_number = parseInt(req.params.number)
-      const numberNote = data[3]['notes'][int_number];
-      if (numberNote == null) {
-         res.json(`Your specified Note with ID ${req.params.number} was not found!`);
-      } else {
-         res.json(numberNote);
+      for (let i = 0; i < data[3]['notes'].length; i++) {
+         if (data[3]['notes'][i]['_id'] == req.params.id) {
+            const idNote = data[3]['notes'][i];
+            res.json(idNote);
+            break;
+         }
       }
+      res.json(`Your specified Note with ID ${req.params.id} was not found!`);
    } catch (e) {
       console.log(e);
       console.log(res.status);
@@ -43,9 +44,7 @@ router.get('/notes/:number(\\d+)/', async (req, res) => {
 
 // post a note
 router.post('/notes', async (req, res) => {
-   const postNumber = data[3]['notes'].length
    const note = new Note({
-      number: postNumber.toString(),
       text: req.body.text
    });
    try {
@@ -59,12 +58,16 @@ router.post('/notes', async (req, res) => {
 });
 
 // delete a note by note number
-router.delete('/notes/:postNumber(\\d+)/', async(req, res) => {
+router.delete('/notes/:id', async(req, res) => {
    try {
-      const postNumber = parseInt(req.params.postNumber);
-      const toDelete = data[3]['notes'][postNumber];
-      data[3]['notes'].splice(postNumber, 1);
-      res.json(toDelete);
+      for (let i = 0; i < data[3]['notes'].length; i++) {
+         if (data[3]['notes'][i]['_id'] == req.params.id) {
+            const toDelete = data[3]['notes'][i];
+            data[3]['notes'].splice(i, 1)
+            res.json(toDelete);
+            break;
+         }
+      }
    } catch (e) {
       console.log(e);
       console.log(res.status);
@@ -72,12 +75,16 @@ router.delete('/notes/:postNumber(\\d+)/', async(req, res) => {
 })
 
 // patch the text of a note by note number
-router.patch('/notes/:postNumber(\\d+)/', async (req, res) => {
+router.patch('/notes/:id', async (req, res) => {
    try {
-      const postNumber = parseInt(req.params.postNumber);
-      data[3]['notes'][postNumber]['text'] = req.body.text;
-      const updatedPost = data[3]['notes'][postNumber - 1];
-      res.json(updatedPost);
+      for (let i = 0; i < data[3]['notes'].length; i++) {
+         if (data[3]['notes'][i]['_id'] == req.params.id) {
+            data[3]['notes'][i]['text'] = req.body.text;
+            const updatedPost = data[3]['notes'][i];
+            res.json(updatedPost);
+            break;
+         }
+      }
    } catch (e) {
       console.log(e);
       console.log(res.status);
